@@ -5,22 +5,32 @@
 
 	let contextMenu: HTMLElement | undefined;
 
+	const close = () => {
+		contextMenuStore.set({ show: false, x: 0, y: 0, options: [] });
+	};
+
 	const handleClickOutside = (event: MouseEvent) => {
 		if (contextMenu && !contextMenu.contains(event.target as Node)) {
-			contextMenuStore.set({ show: false, x: 0, y: 0, options: [] });
+			close();
 		}
 	};
 </script>
 
 {#if $contextMenuStore.show}
 	<div
-		class={twMerge('absolute z-[1000] flex flex-col', $$props.class)}
+		class={twMerge('absolute z-[9999] flex flex-col', $$props.class)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
 		style="top: {$contextMenuStore.y}px; left: {$contextMenuStore.x}px;"
 	>
 		{#each $contextMenuStore.options as option}
-			<button class={option.class} on:click={option.action}>{option.label}</button>
+			<button
+				class={twMerge('z-[9999]', option.class)}
+				on:click={() => {
+					option.action();
+					close();
+				}}>{option.label}</button
+			>
 		{/each}
 	</div>
 {/if}
