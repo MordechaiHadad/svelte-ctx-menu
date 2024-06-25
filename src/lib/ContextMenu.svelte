@@ -18,14 +18,14 @@
 
 {#if $contextMenuStore.show}
 	<div
-		class={twMerge('absolute z-[9999] flex flex-col', $$props.class)}
+		class={twMerge('absolute z-[999] flex flex-col', $$props.class)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
 		style="top: {$contextMenuStore.y}px; left: {$contextMenuStore.x}px;"
 	>
 		{#each $contextMenuStore.options as option}
 			<button
-				class={twMerge('z-[9999]', option.class)}
+				class={option.class}
 				on:click={() => {
 					option.action();
 					close();
