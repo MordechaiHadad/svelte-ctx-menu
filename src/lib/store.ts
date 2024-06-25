@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store';
 
 export type ContextMenuOptions = {
-	label: string;
+	label?: string;
+	html?: string;
 	action: () => void;
 	class?: string;
 };

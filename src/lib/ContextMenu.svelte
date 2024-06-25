@@ -18,7 +18,7 @@
 
 {#if $contextMenuStore.show}
 	<div
-		class={twMerge('absolute z-[999] flex flex-col', $$props.class)}
+		class={twMerge('context-menu absolute flex flex-col', $$props.class)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
 		style="top: {$contextMenuStore.y}px; left: {$contextMenuStore.x}px;"
@@ -29,8 +29,19 @@
 				on:click={() => {
 					option.action();
 					close();
-				}}>{option.label}</button
-			>
+				}}
+				>{#if option.html}
+					{@html option.html}
+				{:else}
+					{option.label}
+				{/if}
+			</button>
 		{/each}
 	</div>
 {/if}
+
+<style>
+	.context-menu {
+		z-index: 9999;
+	}
+</style>

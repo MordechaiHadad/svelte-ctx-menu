@@ -4,7 +4,7 @@
 
 	const options = [
 		{ label: 'Option 1', action: () => alert('Option 1 selected') },
-		{ label: 'Option 2', action: () => alert('Option 2 selected') }
+		{ html: "<span class='bg-blue-500'>Bye Bye</span> <span class='bg-red-500'>Hello</span>'", action: () => alert('Option 2 selected'), class: "flex gap-5" }
 	];
 </script>
 
