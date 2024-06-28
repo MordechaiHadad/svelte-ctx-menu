@@ -1,8 +1,11 @@
+import type { SvelteComponent } from 'svelte';
 import { writable } from 'svelte/store';
+
+type AnySvelteComponent = new (...args: any) => SvelteComponent;
 
 export type ContextMenuOptions = {
 	label?: string;
-	html?: string;
+	component?: { element: AnySvelteComponent; props?: Record<string, any> };
 	action: () => void;
 	class?: string;
 };

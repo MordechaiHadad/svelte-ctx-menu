@@ -2,6 +2,7 @@
 	import { clickOutside } from '$lib/functions.js';
 	import { twMerge } from 'tailwind-merge';
 	import { contextMenuStore } from './store.js';
+	import type { TransitionConfig } from 'svelte/transition';
 
 	let contextMenu: HTMLElement | undefined;
 
@@ -30,8 +31,9 @@
 					option.action();
 					close();
 				}}
-				>{#if option.html}
-					{@html option.html}
+			>
+				{#if option.component}
+					<svelte:component this={option.component.element} {...option.component.props} />
 				{:else}
 					{option.label}
 				{/if}
