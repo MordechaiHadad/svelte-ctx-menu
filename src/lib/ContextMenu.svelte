@@ -2,7 +2,6 @@
 	import { clickOutside } from '$lib/functions.js';
 	import { twMerge } from 'tailwind-merge';
 	import { contextMenuStore } from './store.js';
-	import type { TransitionConfig } from 'svelte/transition';
 
 	let contextMenu: HTMLElement | undefined;
 
