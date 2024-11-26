@@ -2,8 +2,9 @@
 	import { clickOutside } from '$lib/functions.js';
 	import { twMerge } from 'tailwind-merge';
 	import { contextMenuStore } from './store.svelte.js';
+	import { fly, type TransitionConfig } from 'svelte/transition';
 
-	let { class: className = '' } = $props();
+	let { class: className = '', inTransition = () => {}, outTransition = () => {} } = $props();
 
 	let contextMenu: HTMLElement | undefined = $state(undefined);
 
@@ -25,6 +26,8 @@
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
 		style="top: {contextMenuStore.y}px; left: {contextMenuStore.x}px;"
+		in:inTransition
+		out:outTransition
 	>
 		{#each contextMenuStore.options as option}
 			<button
