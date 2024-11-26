@@ -1,38 +1,41 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/functions.js';
 	import { twMerge } from 'tailwind-merge';
-	import { contextMenuStore } from './store.js';
+	import { contextMenuStore } from './store.svelte.js';
 
-	let contextMenu: HTMLElement | undefined;
+	let { class: className = '' } = $props();
+
+	let contextMenu: HTMLElement | undefined = $state(undefined);
 
 	const close = () => {
-		contextMenuStore.set({ show: false, x: 0, y: 0, options: [] });
+		contextMenuStore.show = false;
+		contextMenuStore.x = 0;
+		contextMenuStore.y = 0;
+		contextMenuStore.options = [];
 	};
 
 	const handleClickOutside = (event: MouseEvent) => {
-		if (contextMenu && !contextMenu.contains(event.target as Node)) {
-			close();
-		}
+		if (contextMenu && !contextMenu.contains(event.target as Node)) close();
 	};
 </script>
 
-{#if $contextMenuStore.show}
+{#if contextMenuStore.show}
 	<div
-		class={twMerge('context-menu absolute flex flex-col', $$props.class)}
+		class={twMerge('context-menu absolute flex flex-col', className)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
-		style="top: {$contextMenuStore.y}px; left: {$contextMenuStore.x}px;"
+		style="top: {contextMenuStore.y}px; left: {contextMenuStore.x}px;"
 	>
-		{#each $contextMenuStore.options as option}
+		{#each contextMenuStore.options as option}
 			<button
 				class={option.class}
-				on:click={() => {
+				onclick={() => {
 					option.action();
 					close();
 				}}
 			>
 				{#if option.component}
-					<svelte:component this={option.component.element} {...option.component.props} />
+					{@render option.component()}
 				{:else}
 					{option.label}
 				{/if}

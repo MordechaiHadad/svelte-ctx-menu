@@ -1,16 +1,14 @@
-import { contextMenuStore, type ContextMenuOptions } from './store.js';
+import { contextMenuStore, type ContextMenuOptions } from "./store.svelte.js";
 
 export const openContextMenu = (event: MouseEvent, options: ContextMenuOptions[]) => {
 	event.preventDefault();
-	contextMenuStore.set({
-		show: true,
-		x: event.clientX,
-		y: event.clientY,
-		options
-	});
+	contextMenuStore.show = true;
+	contextMenuStore.x = event.clientX;
+	contextMenuStore.y = event.clientY;
+	contextMenuStore.options = options;
 };
 
-export function clickOutside(node: HTMLElement, callback: (event: MouseEvent) => void) {
+export const clickOutside = (node: HTMLElement, callback: (event: MouseEvent) => void) => {
 	const handleClick = (event: MouseEvent) => {
 		if (!node.contains(event.target as Node)) {
 			callback(event);
@@ -24,4 +22,4 @@ export function clickOutside(node: HTMLElement, callback: (event: MouseEvent) =>
 			document.removeEventListener('click', handleClick, true);
 		}
 	};
-}
+};
