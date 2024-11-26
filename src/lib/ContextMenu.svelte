@@ -2,7 +2,6 @@
 	import { clickOutside } from '$lib/functions.js';
 	import { twMerge } from 'tailwind-merge';
 	import { contextMenuStore } from './store.svelte.js';
-	import { fly, type TransitionConfig } from 'svelte/transition';
 
 	let { class: className = '', inTransition = () => {}, outTransition = () => {} } = $props();
 
