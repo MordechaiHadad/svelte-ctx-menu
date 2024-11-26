@@ -17,6 +17,20 @@
 	const handleClickOutside = (event: MouseEvent) => {
 		if (contextMenu && !contextMenu.contains(event.target as Node)) close();
 	};
+
+	$effect(() => {
+		if (contextMenu) {
+			const rect = contextMenu.getBoundingClientRect();
+			const windowWidth = window.innerWidth;
+			const windowHeight = window.innerHeight;
+
+			const adjustedX = Math.min(Math.max(contextMenuStore.x, 0), windowWidth - rect.width);
+			const adjustedY = Math.min(Math.max(contextMenuStore.y, 0), windowHeight - rect.height);
+
+			contextMenu.style.left = `${adjustedX}px`;
+			contextMenu.style.top = `${adjustedY}px`;
+		}
+	});
 </script>
 
 {#if contextMenuStore.show}
@@ -24,7 +38,6 @@
 		class={twMerge('context-menu absolute flex flex-col', className)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
-		style="top: {contextMenuStore.y}px; left: {contextMenuStore.x}px;"
 		in:inTransition
 		out:outTransition
 	>
