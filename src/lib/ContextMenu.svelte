@@ -35,7 +35,7 @@
 
 {#if contextMenuStore.show}
 	<div
-		class={twMerge('context-menu absolute flex flex-col', className)}
+		class={twMerge('context-menu flex flex-col w-fit', className)}
 		bind:this={contextMenu}
 		use:clickOutside={handleClickOutside}
 		in:inTransition
@@ -61,6 +61,7 @@
 
 <style>
 	.context-menu {
-		z-index: 9999;
+		position: absolute;
+		z-index: 1000;
 	}
 </style>
