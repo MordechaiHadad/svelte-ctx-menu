@@ -1,58 +1,132 @@
-# create-svelte
+# Svelte Context Menu
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A lightweight, customizable context menu library for Svelte 5 applications.
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+## Features
 
-## Creating a project
+- 🚀 Built for Svelte 5 with runes
+- 📱 Automatically adjusts position to prevent viewport overflow
+- 🎨 Tailwind CSS integration with customizable styles
+- 🧩 Support for custom components in menu items
+- 🔄 Transition animations support
+- 📦 Lightweight and easy to use
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installation
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+npm install svelte-ctx-menu
 ```
 
-## Developing
+## Usage
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Basic Example
+
+```svelte
+<script>
+	import { ContextMenu, openContextMenu } from 'svelte-ctx-menu';
+
+	const handleContextMenu = (e) => {
+		openContextMenu(e, [
+			{
+				label: 'Option 1',
+				action: () => console.log('Option 1 clicked')
+			},
+			{
+				label: 'Option 2',
+				action: () => console.log('Option 2 clicked')
+			}
+		]);
+	};
+</script>
+
+<div oncontextmenu={handleContextMenu}>Right click me!</div>
+
+<ContextMenu />
+```
+
+### Custom Styling
+
+The context menu supports Tailwind CSS classes and custom styling:
+
+```svelte
+<script>
+	import { ContextMenu } from 'svelte-ctx-menu';
+</script>
+
+<ContextMenu class="rounded-lg bg-white shadow-lg" />
+```
+
+### Custom Components
+
+You can use custom components in menu items:
+
+```svelte
+<script>
+	import { openContextMenu } from 'svelte-ctx-menu';
+
+	const showMenu = (e) => {
+		openContextMenu(e, [
+			{
+				component: () => '<div class="flex items-center"><Icon />Copy</div>',
+				action: () => console.log('Copy clicked')
+			}
+		]);
+	};
+</script>
+```
+
+### Transitions
+
+The context menu supports custom transitions for entry and exit animations:
+
+```svelte
+<script>
+	import { fade } from 'svelte/transition';
+	import { ContextMenu } from 'svelte-ctx-menu';
+</script>
+
+<ContextMenu inTransition={fade} outTransition={fade} />
+```
+
+## API
+
+### ContextMenu Props
+
+| Prop          | Type     | Default  | Description                                 |
+| ------------- | -------- | -------- | ------------------------------------------- |
+| class         | string   | ''       | Additional CSS classes to apply to the menu |
+| inTransition  | function | () => {} | Entry transition function                   |
+| outTransition | function | () => {} | Exit transition function                    |
+
+### openContextMenu Options
+
+```typescript
+interface MenuOption {
+	label?: string;
+	component?: () => string;
+	action: () => void;
+	class?: string;
+}
+
+function openContextMenu(event: MouseEvent, options: MenuOption[]): void;
+```
+
+## Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
+# Build the library
 npm run package
+
+# Preview production build
+npm run preview
 ```
 
-To create a production version of your showcase app:
+## License
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+MIT License - see the [LICENSE](LICENSE) file for details.
